@@ -10,14 +10,18 @@
 04. Create an empty project
 05. Create a folder named contracts
 06. Run the command `npm install @openzeppelin/contracts-upgradeable`
-06. Run the command `npm install @openzeppelin/hardhat-upgrades`
-07. edit hardhat.config.js file and add `require("@openzeppelin/hardhat-upgrades");`
-08. Create a file named CuyTokenV1.sol in contracts folder
-05. Create a folder named test
-06. Run the command `npm install --save-dev chai`
-06. Run the command `npm install --save-dev ethers`
-08. Create a file named CuyToken.test.js in test folder
-
+07. Run the command `npm install @openzeppelin/hardhat-upgrades`
+08. edit hardhat.config.js file and add `require("@openzeppelin/hardhat-upgrades");`
+09. Create a file named CuyTokenV1.sol in contracts folder
+10. Run the command `npx hardhat compile`
+11. Create a folder named test
+12. Run the command `npm install --save-dev chai`
+13. Run the command `npm install --save-dev ethers`
+14. Create a file named CuyToken.test.js in test folder
+15. Run the command `npx hardhat test`
+16. Create a file named CuyTokenV2.sol in contracts folder
+17. Edit a file named CuyToken.test.js in test folder
+15. Run the command `npx hardhat test`
 
 ### How to run this code?
 

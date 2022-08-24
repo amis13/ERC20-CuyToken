@@ -1,9 +1,9 @@
 # ERC20-CuyToken
 
-## Implementemos un token erc-20 usando los contratos de OpenZeppelin
+## Implement an erc-20 token using OpenZeppelin contracts
 
-### ¿Cómo correr este código?
+### How to run this code?
 
-1. Clona o descarga el repositorio.
-2. Corre el comando `npm install`.
-3. Para correr las pruebas corre el commando `npx hardhat test`
+01. Clone or download the repository.
+02. Run the command `npm install`.
+03. To run the tests run the command `npx hardhat test`
