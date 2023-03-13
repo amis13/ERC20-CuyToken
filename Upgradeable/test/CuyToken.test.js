@@ -2,12 +2,12 @@ const { expect } = require("chai");
 const { ethers, upgrades } = require("hardhat");
 
 const initialSupply = 100000;
-const tokenName = "Skull";
-const tokenSymbol = "SKL";
+const tokenName = "CuyToken";
+const tokenSymbol = "CUY";
 
-describe("Skull token test", function() {
-  let skullV1;
-  let skullV2;
+describe("Cuy token tests", function() {
+  let cuyTokenV1;
+  let cuyTokenV2;
   let deployer;
 
   describe("V1 tests", function () {
@@ -15,33 +15,33 @@ describe("Skull token test", function() {
       const availableSigners = await ethers.getSigners();
       deployer = availableSigners[0];
 
-      const skull = await ethers.getContractFactory("SkullV1");
+      const CuyToken = await ethers.getContractFactory("CuyTokenV1");
 
-      skullV1 = await upgrades.deployProxy(skull, [initialSupply], { kind: "uups" });
-      await skullV1.deployed();
+      cuyTokenV1 = await upgrades.deployProxy(CuyToken, [initialSupply], { kind: "uups" });
+      await cuyTokenV1.deployed();
     });
 
-    it('Should be named Skull', async function() {
-      const fetchedTokenName = await skullV1.name();
+    it('Should be named CuyToken', async function() {
+      const fetchedTokenName = await cuyTokenV1.name();
       expect(fetchedTokenName).to.be.equal(tokenName);
     });
 
-    it('Should have symbol "SKL"', async function() {
-      const fetchedTokenSymbol = await skullV1.symbol();
+    it('Should have symbol "CUY"', async function() {
+      const fetchedTokenSymbol = await cuyTokenV1.symbol();
       expect(fetchedTokenSymbol).to.be.equal(tokenSymbol);
     });
 
     it('Should have totalSupply passed in during deployment', async function() {
       const [ fetchedTotalSupply, decimals ] = await Promise.all([
-        skullV1.totalSupply(),
-        skullV1.decimals(),
+        cuyTokenV1.totalSupply(),
+        cuyTokenV1.decimals(),
       ]);
       const expectedTotalSupply = ethers.BigNumber.from(initialSupply).mul(ethers.BigNumber.from(10).pow(decimals));
       expect(fetchedTotalSupply.eq(expectedTotalSupply)).to.be.true;
     });
 
     it('Should run into an error when executing a function that does not exist', async function () {
-      expect(() => skullV1.mint(deployer.address, ethers.BigNumber.from(10).pow(18))).to.throw();
+      expect(() => cuyTokenV1.mint(deployer.address, ethers.BigNumber.from(10).pow(18))).to.throw();
     });
   });
 
@@ -50,26 +50,26 @@ describe("Skull token test", function() {
 
       userAccount = (await ethers.getSigners())[1];
 
-      const skullV2 = await ethers.getContractFactory("SkullV2");
+      const CuyTokenV2 = await ethers.getContractFactory("CuyTokenV2");
 
-      skullV2 = await upgrades.upgradeProxy(skullV1.address, skullV2);
+      cuyTokenV2 = await upgrades.upgradeProxy(cuyTokenV1.address, CuyTokenV2);
 
 
-      await skullV2.deployed();
+      await cuyTokenV2.deployed();
 
     });
 
     it("Should has the same address, and keep the state as the previous version", async function () {
       const [totalSupplyForNewCongtractVersion, totalSupplyForPreviousVersion] = await Promise.all([
-        skullV2.totalSupply(),
-        skullV1.totalSupply(),
+        cuyTokenV2.totalSupply(),
+        cuyTokenV1.totalSupply(),
       ]);
-      expect(skullV1.address).to.be.equal(skullV2.address);
+      expect(cuyTokenV1.address).to.be.equal(cuyTokenV2.address);
       expect(totalSupplyForNewCongtractVersion.eq(totalSupplyForPreviousVersion)).to.be.equal(true);
     });
 
     it("Should revert when an account other than the owner is trying to mint tokens", async function() {
-      const tmpContractRef = await skullV2.connect(userAccount);
+      const tmpContractRef = await cuyTokenV2.connect(userAccount);
       try {
         await tmpContractRef.mint(userAccount.address, ethers.BigNumber.from(10).pow(ethers.BigNumber.from(18)));
       } catch (ex) {
@@ -80,12 +80,12 @@ describe("Skull token test", function() {
 
     it("Should mint tokens when the owner is executing the mint function", async function () {
       const amountToMint = ethers.BigNumber.from(10).pow(ethers.BigNumber.from(18)).mul(ethers.BigNumber.from(10));
-      const accountAmountBeforeMint = await skullV2.balanceOf(deployer.address);
-      const totalSupplyBeforeMint = await skullV2.totalSupply();
-      await skullV2.mint(deployer.address, amountToMint);
+      const accountAmountBeforeMint = await cuyTokenV2.balanceOf(deployer.address);
+      const totalSupplyBeforeMint = await cuyTokenV2.totalSupply();
+      await cuyTokenV2.mint(deployer.address, amountToMint);
 
-      const newAccountAmount = await skullV2.balanceOf(deployer.address);
-      const newTotalSupply = await skullV2.totalSupply();
+      const newAccountAmount = await cuyTokenV2.balanceOf(deployer.address);
+      const newTotalSupply = await cuyTokenV2.totalSupply();
       
       expect(newAccountAmount.eq(accountAmountBeforeMint.add(amountToMint))).to.be.true;
       expect(newTotalSupply.eq(totalSupplyBeforeMint.add(amountToMint))).to.be.true;
