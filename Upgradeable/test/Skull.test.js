@@ -2,10 +2,10 @@ const { expect } = require("chai");
 const { ethers, upgrades } = require("hardhat");
 
 const initialSupply = 100000;
-const tokenName = "skull";
+const tokenName = "Skull";
 const tokenSymbol = "SKL";
 
-describe("skull token test", function() {
+describe("Skull token test", function() {
   let skullV1;
   let skullV2;
   let deployer;
@@ -15,13 +15,13 @@ describe("skull token test", function() {
       const availableSigners = await ethers.getSigners();
       deployer = availableSigners[0];
 
-      const skull = await ethers.getContractFactory("skullV1");
+      const skull = await ethers.getContractFactory("SkullV1");
 
       skullV1 = await upgrades.deployProxy(skull, [initialSupply], { kind: "uups" });
       await skullV1.deployed();
     });
 
-    it('Should be named skull', async function() {
+    it('Should be named Skull', async function() {
       const fetchedTokenName = await skullV1.name();
       expect(fetchedTokenName).to.be.equal(tokenName);
     });
@@ -50,7 +50,7 @@ describe("skull token test", function() {
 
       userAccount = (await ethers.getSigners())[1];
 
-      const skullV2 = await ethers.getContractFactory("skullV2");
+      const skullV2 = await ethers.getContractFactory("SkullV2");
 
       skullV2 = await upgrades.upgradeProxy(skullV1.address, skullV2);
 
