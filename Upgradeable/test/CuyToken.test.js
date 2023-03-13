@@ -3,9 +3,9 @@ const { ethers, upgrades } = require("hardhat");
 
 const initialSupply = 100000;
 const tokenName = "skull";
-const tokenSymbol = "CUY";
+const tokenSymbol = "SKL";
 
-describe("Cuy token tests", function() {
+describe("skull token test", function() {
   let skullV1;
   let skullV2;
   let deployer;
@@ -26,7 +26,7 @@ describe("Cuy token tests", function() {
       expect(fetchedTokenName).to.be.equal(tokenName);
     });
 
-    it('Should have symbol "CUY"', async function() {
+    it('Should have symbol "SKL"', async function() {
       const fetchedTokenSymbol = await skullV1.symbol();
       expect(fetchedTokenSymbol).to.be.equal(tokenSymbol);
     });

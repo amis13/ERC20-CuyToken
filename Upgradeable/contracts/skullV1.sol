@@ -17,7 +17,7 @@ contract SkullV1 is
     // using an initializer instead of a contructor
     function initialize(uint256 initialSupply) public initializer {
         // As we are not using constructors we have to use the ERC20's contract initializer as well
-        __ERC20_init("Skull", "CUY");
+        __ERC20_init("Skull", "SKL");
         // init the ownable contract and proxy
         __Ownable_init_unchained();
         __UUPSUpgradeable_init();
